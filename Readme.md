@@ -151,5 +151,21 @@ sudo docker-compose up stop
 ### 録画ファイル保存先
 epgrec のインストール設定時に設定を変更していなければ、プロジェクトフォルダ内の ```./epgrec/video``` に保存されます。
 
+###ffmpeg
+```
+ffmpeg -version
+ffmpeg version N-82560-gd1d18de Copyright (c) 2000-2016 the FFmpeg developers
+built with gcc 4.9.2 (Debian 4.9.2-10)
+configuration: --prefix=/usr/local --pkg-config-flags=--static --enable-gpl --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libx264 --enable-nonfree
+libavutil      55. 40.100 / 55. 40.100
+libavcodec     57. 66.105 / 57. 66.105
+libavformat    57. 57.100 / 57. 57.100
+libavdevice    57.  2.100 / 57.  2.100
+libavfilter     6. 67.100 /  6. 67.100
+libswscale      4.  3.101 /  4.  3.101
+libswresample   2.  4.100 /  2.  4.100
+libpostproc    54.  2.100 / 54.  2.100
+```
+
 ##Licence
 MIT Licence としておきます。
