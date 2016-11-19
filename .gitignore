@@ -1,0 +1,10 @@
+*.swp
+.DS_Store
+./BonDriver/*.so
+./BonDriver/*.so.conf
+./epgrec/*
+./epgrecUNA/crontab
+./epgrecUNA/epgdump/*
+./epgremote_config/config.json
+./epgremote_config/logConfig.json
+

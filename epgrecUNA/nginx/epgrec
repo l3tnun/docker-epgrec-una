@@ -1,0 +1,13 @@
+server {
+    listen 80 default_server;
+    server_name localhost;
+    root /var/www/epgrec;
+    charset utf-8;
+    index index.php index.html;
+    location ~ [^/]\.php {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+    }
+}
+

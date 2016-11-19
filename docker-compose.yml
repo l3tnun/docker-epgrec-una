@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: epgrec-mysql
+        volumes:
+            - epgrec-db:/var/lib/mysql
+        environment:
+            MYSQL_USER: epgrec
+            MYSQL_PASSWORD: epgrec
+            MYSQL_ROOT_PASSWORD: mysql
+            MYSQL_DATABASE: epgrec
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+
+    epgrec:
+        build:
+            context: epgrecUNA
+            args:
+                - CPUCORE=2
+        container_name: epgrec
+        volumes:
+            - epgrec-cron-vol:/var/spool/cron
+            - ./epgrec:/var/www/epgrec
+            - ./BonDriver:/BonDriver
+            - ./epgremote_config:/usr/local/EPGRemote/config
+        links:
+            - mysql:mysql
+        ports:
+            - "8080:80"
+            - "8888:8888"
+        tty: true
+
+volumes:
+    epgrec-db:
+        driver: local
+    epgrec-cron-vol:
+        driver: local
+
