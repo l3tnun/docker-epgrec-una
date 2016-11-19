@@ -118,7 +118,7 @@ cd / && \
 rm -rf /tmp/* &&\
 \
 #不要なパッケージの削除
-apt-get purge -y make gcc git g++ automake autoconf build-essential libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev wget && \
+apt-get purge -y make gcc git g++ automake autoconf build-essential libtool pkg-config texinfo zlib1g-dev wget && \
 apt-get autoremove -y && \
 apt-get clean -y
 
