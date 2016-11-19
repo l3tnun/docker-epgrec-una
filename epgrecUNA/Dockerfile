@@ -119,7 +119,6 @@ rm -rf /tmp/* &&\
 \
 #不要なパッケージの削除
 apt-get purge -y make gcc git g++ automake autoconf build-essential libtool pkg-config texinfo zlib1g-dev wget && \
-apt-get autoremove -y && \
 apt-get clean -y
 
 ENTRYPOINT chown -R www-data:www-data /var/www/epgrec && \
