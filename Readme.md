@@ -21,6 +21,8 @@ BonDriverProxy_Linux の機能はないので、自分で準備してくださ�
 
 ・BonDriverProxy_Linux Host
 
+>BonDriverProxy_Linux: BonDriverProxyEx版
+
 >ネットワーク上の別マシン
 
 ##インストール手順
