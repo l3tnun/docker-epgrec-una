@@ -23,12 +23,12 @@
         {
             "id"      : 1,
             "name"    : "720x480(main)",
-            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -aspect 16:9 -vb 1500k -fpre /usr/local/EPGRemote/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -fpre /usr/local/EPGRemote/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
         },
         {
             "id"      : 2,
             "name"    : "720x480(sub)",
-            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -aspect 16:9 -vb 1500k -fpre /usr/local/EPGRemote/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -fpre /usr/local/EPGRemote/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
         }
     ],
 
@@ -92,6 +92,9 @@
     },
 
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
-    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS"
+    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS",
+    "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
+    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS"
+
 }
 
