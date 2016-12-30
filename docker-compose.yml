@@ -2,7 +2,8 @@ version: '2'
 
 services:
     mysql:
-        image: mysql:5.7
+        build:
+            context: mysql
         container_name: epgrec-mysql
         volumes:
             - epgrec-db:/var/lib/mysql
