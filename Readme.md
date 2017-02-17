@@ -139,7 +139,7 @@ sudo docker cp epgrec:/usr/local/EPGRemote/php/epgremote ./epgrec/
 以下のコマンドでコンテナを停止できる
 
 ```
-sudo docker-compose up stop
+sudo docker-compose stop
 ```
 
 ## 設定
