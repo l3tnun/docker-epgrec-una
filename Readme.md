@@ -2,6 +2,36 @@
 
 epgrecUNA + [EPGRemote](https://github.com/l3tnun/EPGRemote) の Docker コンテナ
 
+##このブランチについて
+
+ffmpeg の vaapi (QSV) に対応したブランチになっています。
+
+epgrec UNA のベースイメージが Debian から ubuntu 16.04 へ変更になった影響で、php が 5 系から 7 系に変更されています。
+
+そのため、epgrecUNA151114Fix2 の時点で ```epgrec/templates/programTable.html ``` に以下の修正が必要です。
+
+* 666行目の 0x3f を 63 へ変更する
+
+```
+#変更前
+{if $k_category != 15 || $k_sub_genre>=0x3f }
+
+#変更後
+{if $k_category != 15 || $k_sub_genre>=0x63 }
+
+```
+
+* 679行目の 0x7f を 127 へ変更する
+
+```
+#変更前
+<b>　曜日:</b>{if $weekofday == 0x7f}なし{else}{$wds_name}{/if}
+
+#変更後
+<b>　曜日:</b>{if $weekofday == 127}なし{else}{$wds_name}{/if}
+
+```
+
 ##前提条件
 Docker, docker-compose, [u-n-k-n-o-w-n/BonDriverProxy_Linux
 ](https://github.com/u-n-k-n-o-w-n/BonDriverProxy_Linux) の導入が必須です。
@@ -13,11 +43,11 @@ BonDriverProxy_Linux の機能はないので、自分で準備してくださ�
 ##動作確認環境
 
 ・Docker Host
->OS: Debian jessie
+>OS: Ubuntu Server 16.04 LTS
 
->Docker version 1.12.3, build 6b644ec
+>Docker version 17.03.1-ce, build c6d412e
 
->docker-compose version 1.8.1, build 878cff1
+>docker-compose version 1.11.2, build dfed245
 
 ・BonDriverProxy_Linux Host
 
