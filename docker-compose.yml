@@ -20,7 +20,9 @@ services:
             args:
                 - CPUCORE=2
         container_name: epgrec
+        privileged: true
         volumes:
+            - /dev/dri:/dev/dri
             - epgrec-cron-vol:/var/spool/cron
             - ./epgrec:/var/www/epgrec
             - ./BonDriver:/BonDriver

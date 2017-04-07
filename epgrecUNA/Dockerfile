@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM ubuntu:16.04
 MAINTAINER l3tnun
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 EXPOSE 80
@@ -11,20 +11,20 @@ ADD ./epgdump /tmp/epgdump
 ADD ./crontab /tmp/
 
 #timezone 設定
-RUN echo "Asia/Tokyo" > /etc/timezone && \
+RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
 dpkg-reconfigure -f noninteractive tzdata && \
 \
 #必要なパッケージをインストール
 apt-get update && \
-apt-get -y install at cron nginx php5-fpm php5-cli php5-mysql make gcc git g++ automake && \
+apt-get -y install at cron nginx php7.0-fpm php7.0-cli php7.0-mysql php7.0-xml php7.0-mbstring make gcc git g++ automake && \
 \
 #at の設定
 #www-data で at コマンドが実行できるように
 sed -i".org" 's/www-data//g' /etc/at.deny && \
 \
 #php-fpm の timezone を設定
-sed -i".org" 's/^disable_functions/;disable_functions/g' /etc/php5/fpm/php.ini && \
-find /etc/php5 -name "php.ini" | xargs sed -i".org" 's/^;date.timezone =/date.timezone = "Asia\/Tokyo"/g' && \
+sed -i".org" 's/^disable_functions/;disable_functions/g' /etc/php/7.0/fpm/php.ini && \
+find /etc/php/7.0/ -name "php.ini" | xargs sed -i".org" 's/^;date.timezone =/date.timezone = "Asia\/Tokyo"/g' && \
 \
 #nginx の設定
 cp /tmp/nginx/epgrec /etc/nginx/sites-available/ && \
@@ -59,6 +59,10 @@ cp  /tmp/BonDriverProxy_Linux/BonDriver_Proxy.so /Bon/ && \
 #EPG 更新の設定
 cat /tmp/crontab >> /etc/crontab && \
 \
+#vaapi
+apt-get -y install libva1 i965-va-driver && \
+usermod -aG video www-data && \
+\
 #ffmpeg のビルドの準備
 apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev wget && \
 apt-get -y install yasm libx264-dev libmp3lame-dev libopus-dev && \
@@ -92,6 +96,7 @@ cd /tmp/ffmpeg_sources/ffmpeg && \
   --enable-libvorbis \
   --enable-libx264 \
   --enable-nonfree \
+  --enable-vaapi \
 && \
 cd /tmp/ffmpeg_sources/ffmpeg && \
 make -j${CPUCORE} && \
@@ -129,7 +134,7 @@ chmod 777 /var/www/epgrec/settings && \
 chmod 777 /var/www/epgrec/cache && \
 /etc/init.d/cron start && \
 /etc/init.d/atd start && \
-/etc/init.d/php5-fpm start && \
+/etc/init.d/php7.0-fpm start && \
 /etc/init.d/nginx start && \
 /usr/local/bin/node /usr/local/EPGRemote/build-server/index.js && \
 /bin/bash
