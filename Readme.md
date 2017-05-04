@@ -17,7 +17,7 @@ epgrec UNA のベースイメージが Debian から ubuntu 16.04 へ変更に�
 {if $k_category != 15 || $k_sub_genre>=0x3f }
 
 #変更後
-{if $k_category != 15 || $k_sub_genre>=0x63 }
+{if $k_category != 15 || $k_sub_genre>=63 }
 
 ```
 
