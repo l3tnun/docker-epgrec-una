@@ -137,5 +137,5 @@ chmod 777 /var/www/epgrec/cache && \
 /etc/init.d/php7.0-fpm start && \
 /etc/init.d/nginx start && \
 /usr/local/bin/node /usr/local/EPGRemote/build-server/index.js && \
-/bin/bash
+tail -f /dev/null
 
