@@ -65,6 +65,8 @@
 
     "epgrecConfig" : {
         "host" : "http://127.0.0.1",
+        "openHost": "http://192.168.0.2:1180",
+        "rootPath": "/var/www/epgrec",
         "videoPath" : "/var/www/epgrec/video",
         "thumbsPath" : "/var/www/epgrec/thumbs",
         "recMode" : [
