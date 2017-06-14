@@ -72,6 +72,7 @@ usermod -aG video www-data && \
 #ffmpeg のビルドの準備
 apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev wget && \
 apt-get -y install yasm libx264-dev libmp3lame-dev libopus-dev && \
+apt-get -y install libasound2 libass5 libvdpau1 libva-x11-1 libva-drm1 libxcb-shm0 libxcb-xfixes0 libxcb-shape0 libvorbisenc2 libtheora0 && \
 mkdir /tmp/ffmpeg_sources && \
 cd /tmp/ffmpeg_sources && \
 \
@@ -90,8 +91,9 @@ wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
 tar xjvf ffmpeg-snapshot.tar.bz2 && \
 cd /tmp/ffmpeg_sources/ffmpeg && \
 ./configure \
-  --prefix="/usr/local" \
-  --pkg-config-flags="--static" \
+  --prefix=/usr/local \
+  --disable-shared \
+  --pkg-config-flags=--static \
   --enable-gpl \
   --enable-libass \
   --enable-libfdk-aac \
@@ -129,7 +131,8 @@ cd / && \
 rm -rf /tmp/* &&\
 \
 #不要なパッケージの削除
-apt-get purge -y make gcc git g++ automake autoconf build-essential libtool pkg-config texinfo zlib1g-dev wget && \
+apt-get purge -y make gcc git g++ automake build-essential libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev wget && \
+apt-get autoremove -y && \
 apt-get clean -y
 
 ENTRYPOINT chown -R www-data:www-data /var/www/epgrec && \
