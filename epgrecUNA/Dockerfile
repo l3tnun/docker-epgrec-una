@@ -115,6 +115,9 @@ cd EPGRemote && \
 npm install && \
 npm run build && \
 \
+#mp2 instal
+npm install pm2 -g && \
+\
 #一時ファイルの削除
 cd / && \
 rm -rf /tmp/* &&\
@@ -134,6 +137,6 @@ chmod 777 /var/www/epgrec/cache && \
 /etc/init.d/atd start && \
 /etc/init.d/php5-fpm start && \
 /etc/init.d/nginx start && \
-/usr/local/bin/node /usr/local/EPGRemote/build-server/index.js && \
+/usr/local/bin/pm2 --no-daemon start /usr/local/EPGRemote/build-server/index.js --name epgremote && \
 tail -f /dev/null
 
