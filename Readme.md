@@ -4,7 +4,7 @@ epgrecUNA + [EPGRemote](https://github.com/l3tnun/EPGRemote) の Docker コン�
 
 ## このブランチについて
 
-ffmpeg の vaapi (QSV) に対応したブランチになっています。
+ffmpeg の nvenc に対応したブランチになっています。
 
 epgrec UNA のベースイメージが Debian から ubuntu 16.04 へ変更になった影響で、php が 5 系から 7 系に変更されています。
 
@@ -33,7 +33,7 @@ epgrec UNA のベースイメージが Debian から ubuntu 16.04 へ変更に�
 ```
 
 ## 前提条件
-Docker, docker-compose, [u-n-k-n-o-w-n/BonDriverProxy_Linux
+Docker, docker-compose, [nvidia-docker](https://github.com/NVIDIA/nvidia-docker), [u-n-k-n-o-w-n/BonDriverProxy_Linux
 ](https://github.com/u-n-k-n-o-w-n/BonDriverProxy_Linux) の導入が必須です。
 
 BonDriverProxy_Linux の機能はないので、自分で準備してください。(Dockerfile を追加するなり適当に)
@@ -47,7 +47,9 @@ BonDriverProxy_Linux の機能はないので、自分で準備してくださ�
 
 >Docker version 17.03.1-ce, build c6d412e
 
->docker-compose version 1.11.2, build dfed245
+>docker-compose version 1.13.0, build 1719ceb
+
+>nvidia-docker version 1.0.1
 
 ・BonDriverProxy_Linux Host
 
@@ -111,6 +113,8 @@ BonDriver は /BonDriver にマウントされるので device 指定は以下�
 ```
 
 ### 5. epgrecUNA の実行
+epgrec の初期設定のために起動する
+
 以下のコマンドでコンテナが起動する
 
 ```
@@ -166,10 +170,35 @@ sudo docker cp epgrec:/usr/local/EPGRemote/php/epgremote ./epgrec/
 ```./epgremote_config/config.json``` の設定は [EPGRemote の Readme](https://github.com/l3tnun/EPGRemote#readme) を見ながら設定する
 
 ### 9. コンテナの停止
+nvidia-docker から起動するために一度コンテナを停止する
+
 以下のコマンドでコンテナを停止できる
 
 ```
 sudo docker-compose stop
+```
+
+### 10. nvidia-docker からのコンテナの起動
+nvidia-docker からコンテナを起動する
+
+--restart=always をつけているため、ホスト起動時にコンテナが自動で起動する
+
+```
+sudo ./startup.sh
+```
+
+停止する場合は以下のコマンドを実行する
+
+```
+sudo ./stop.sh
+```
+
+## epgrecUNA によるエンコードの際の注意
+
+www-data で nvenc を使う場合 `LD_LIBRARY_PATH` の設定をすること
+
+```
+export LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 ```
 
 ## 設定
@@ -186,17 +215,17 @@ epgrec のインストール設定時に設定を変更していなければ、�
 ### ffmpeg
 ```
 ffmpeg -version
-ffmpeg version N-82560-gd1d18de Copyright (c) 2000-2016 the FFmpeg developers
-built with gcc 4.9.2 (Debian 4.9.2-10)
-configuration: --prefix=/usr/local --pkg-config-flags=--static --enable-gpl --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libx264 --enable-nonfree
-libavutil      55. 40.100 / 55. 40.100
-libavcodec     57. 66.105 / 57. 66.105
-libavformat    57. 57.100 / 57. 57.100
-libavdevice    57.  2.100 / 57.  2.100
-libavfilter     6. 67.100 /  6. 67.100
-libswscale      4.  3.101 /  4.  3.101
-libswresample   2.  4.100 /  2.  4.100
-libpostproc    54.  2.100 / 54.  2.100
+ffmpeg version 3.3.2 Copyright (c) 2000-2017 the FFmpeg developers
+built with gcc 5.4.0 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 20160609
+configuration: --prefix=/usr/local --disable-shared --pkg-config-flags=--static --enable-gpl --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libx264 --enable-nonfree --enable-nvenc --enable-cuda --enable-cuvid --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-cflags=-I/usr/local/include --extra-ldflags=-L/usr/local/cuda/lib64
+libavutil      55. 58.100 / 55. 58.100
+libavcodec     57. 89.100 / 57. 89.100
+libavformat    57. 71.100 / 57. 71.100
+libavdevice    57.  6.100 / 57.  6.100
+libavfilter     6. 82.100 /  6. 82.100
+libswscale      4.  6.100 /  4.  6.100
+libswresample   2.  7.100 /  2.  7.100
+libpostproc    54.  5.100 / 54.  5.100
 ```
 
 ## Licence

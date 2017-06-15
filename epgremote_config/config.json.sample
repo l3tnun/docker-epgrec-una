@@ -11,12 +11,12 @@
         {
             "id"      : 1,
             "name"    : "1280x720(main)",
-            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -i pipe:0 -vf format=nv12|vaapi,hwupload,deinterlace_vaapi,scale_vaapi=w=1280:h=720 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_vaapi -level 40 -aspect 16:9 -vb 6000k -flags +loop+global_header <streamFilesDir>/stream<streamNum>.m3u8"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_nvenc -s 1280x720 -filter:v yadif -aspect 16:9 -vb 6000k -fpre /usr/local/EPGRemote/nvenc-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
         },
         {
             "id"      : 2,
             "name"    : "1280x720(sub)",
-            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -i pipe:0 -vf format=nv12|vaapi,hwupload,deinterlace_vaapi,scale_vaapi=w=1280:h=720 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_vaapi -level 40 -aspect 16:9 -vb 6000k -flags +loop+global_header <streamFilesDir>/stream<streamNum>.m3u8"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_nvenc -s 1280x720 -filter:v yadif -aspect 16:9 -vb 6000k -fpre /usr/local/EPGRemote/nvenc-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
         }
     ],
 
@@ -24,12 +24,12 @@
         {
             "id"      : 1,
             "name"    : "720x480(main)",
-            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -i pipe:0 -vf format=nv12|vaapi,hwupload,deinterlace_vaapi,scale_vaapi=w=720:h=480 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_vaapi -level 40 -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_nvenc -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
         },
         {
             "id"      : 2,
             "name"    : "720x480(sub)",
-            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -i pipe:0 -vf format=nv12|vaapi,hwupload,deinterlace_vaapi,scale_vaapi=w=720:h=480 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_vaapi -level 40 -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_nvenc -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
         }
     ],
 
@@ -37,12 +37,12 @@
         {
             "id"      : 1,
             "name"    : "720x480(main)",
-            "command" : "/usr/local/bin/ffmpeg -dual_mono_mode main -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -i <input> -vf format=nv12|vaapi,hwupload,deinterlace_vaapi,scale_vaapi=w=720:h=480 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_vaapi -level 40 -aspect 16:9 -vb 6000k -flags +loop+global_header <streamFilesDir>/stream<streamNum>.m3u8"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec h264_nvenc -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -fpre /usr/local/EPGRemote/nvenc-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
         },
         {
             "id"      : 2,
             "name"    : "720x480(sub)",
-            "command" : "/usr/local/bin/ffmpeg -dual_mono_mode sub -vaapi_device /dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -i <input> -vf format=nv12|vaapi,hwupload,deinterlace_vaapi,scale_vaapi=w=720:h=480 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec h264_vaapi -level 40 -aspect 16:9 -vb 6000k -flags +loop+global_header <streamFilesDir>/stream<streamNum>.m3u8"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec h264_nvenc -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -fpre /usr/local/EPGRemote/nvenc-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
         }
     ],
 

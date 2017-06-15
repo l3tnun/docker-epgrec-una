@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM nvidia/cuda:8.0-devel-ubuntu16.04
 MAINTAINER l3tnun
 ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 EXPOSE 80
@@ -68,8 +68,6 @@ cp  /tmp/BonDriverProxy_Linux/BonDriver_Proxy.so /Bon/ && \
 #EPG 更新の設定
 cat /tmp/crontab >> /etc/crontab && \
 \
-#vaapi
-apt-get -y install libva1 i965-va-driver && \
 usermod -aG video www-data && \
 \
 #ffmpeg のビルドの準備
@@ -90,9 +88,9 @@ make install && \
 \
 #ffmpeg のビルド
 cd /tmp/ffmpeg_sources && \
-wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
-tar xjvf ffmpeg-snapshot.tar.bz2 && \
-cd /tmp/ffmpeg_sources/ffmpeg && \
+wget http://ffmpeg.org/releases/ffmpeg-3.3.2.tar.bz2 -O ffmpeg.tar.bz2 && \
+tar xjvf ffmpeg.tar.bz2 && \
+cd /tmp/ffmpeg_sources/ffmpeg* && \
 ./configure \
   --prefix=/usr/local \
   --disable-shared \
@@ -107,9 +105,15 @@ cd /tmp/ffmpeg_sources/ffmpeg && \
   --enable-libvorbis \
   --enable-libx264 \
   --enable-nonfree \
-  --enable-vaapi \
+  --enable-nvenc \
+  --enable-cuda \
+  --enable-cuvid \
+  --enable-libnpp \
+  --extra-cflags=-I/usr/local/cuda/include \
+  --extra-cflags=-I/usr/local/include \
+  --extra-ldflags=-L/usr/local/cuda/lib64 \
 && \
-cd /tmp/ffmpeg_sources/ffmpeg && \
+cd /tmp/ffmpeg_sources/ffmpeg* && \
 make -j${CPUCORE} && \
 make install && \
 \

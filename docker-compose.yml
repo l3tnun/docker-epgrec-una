@@ -20,8 +20,6 @@ services:
             args:
                 - CPUCORE=2
         container_name: epgrec
-        devices:
-            - "/dev/dri:/dev/dri"
         volumes:
             - epgrec-cron-vol:/var/spool/cron
             - ./epgrec:/var/www/epgrec
