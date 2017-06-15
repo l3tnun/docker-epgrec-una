@@ -184,6 +184,8 @@ nvidia-docker からコンテナを起動する
 --restart=always をつけているため、ホスト起動時にコンテナが自動で起動する
 
 ```
+#epgrec の -v 指定を相対パスから絶対パスへ修正すること
+vim ./startup.sh
 sudo ./startup.sh
 ```
 
