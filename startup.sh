@@ -9,7 +9,7 @@ docker run  \
 -p 3306:3306 \
 -v dockerepgrecuna_epgrec-db:/var/lib/mysql \
 --restart=always \
---name epgrec-mysql -i -t -d dockerepgrecuna_mysql \
+--name epgrec-mysql -i -t -d mysql:8.0 \
 mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
 
 nvidia-docker run \
