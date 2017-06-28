@@ -6,7 +6,6 @@ docker run  \
 -e MYSQL_PASSWORD:=epgrec \
 -e MYSQL_ROOT_PASSWORD=mysql \
 -e MYSQL_DATABASE=epgrec \
--p 3306:3306 \
 -v dockerepgrecuna_epgrec-db:/var/lib/mysql \
 --restart=always \
 --name epgrec-mysql -i -t -d mysql:8.0 \
